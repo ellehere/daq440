@@ -27,6 +27,7 @@
 
 #define ERR_LOOP 0xa00
 // loop error codes (to communicate with blinkey)
+#define ERR_LOOP_NONE (ERR_LOOP | 0x0) // no error
 #define ERR_LOOP_FATAL (ERR_LOOP | 0x1) // fatal error, no reason to proceed
 #define ERR_LOOP_SD (ERR_LOOP_FATAL) // cannot write to SD (considered fatal)
 #define ERR_LOOP_TMP (ERR_LOOP | 0x2) // error with temperature measurements 
