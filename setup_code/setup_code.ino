@@ -11,6 +11,8 @@
 /**
  * In this file, write the main setup code to initialize the Arduino Uno
  * before it begins data acquisition
+ * 
+ * Refer to *.h files to determine what must be initialized and in what order.
  */
 
 

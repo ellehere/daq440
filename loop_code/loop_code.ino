@@ -10,7 +10,10 @@
 
 /**
  * In this file, write the main loop code to control timing and control the
- * data acquisition
+ * data acquisition.
+ * 
+ * Refer to *.h files for function signatures and variable/constant names.
+ * 
  */
 
 

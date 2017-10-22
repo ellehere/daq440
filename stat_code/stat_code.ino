@@ -20,7 +20,7 @@ void setup() {
   updateStats(8.41619, statArray);
   fstat = calcMean(statArray);
   message(fstat);
-  message(calcStd(statArray));
+  message(calcVariance(statArray));
   message(calcSkewness(statArray));
   message(calcKurtosis(statArray));
 }

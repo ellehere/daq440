@@ -11,12 +11,13 @@
 //                 The Setup Function.
 //*****************************************************************************
 void setup() {
-  char testString[50] = "test this";
+  int testStrLength = 50;
+  char testString[testStrLength] = "test this";
   // Initialize the serial port.
   Serial.begin(115200);
   message(initSDCard());
-  message(writeDataToSDFile(testString));
-  message(getSDFileName(testString,50));
+  message(writeDataToSDFile(testString,testStrLength));
+  message(getSDFileName(testString));
   message(testString);
   message(checkSD());
 }

@@ -16,9 +16,9 @@ void setup() {
   Serial.begin(115200);
   message(formatValues(testOut, 40, testArray, 3));
   message(testOut);
-  message(validateTmp(10.0));
-  message(validateRH(10.0));
-  message(validatePrs(10.0));
+  message(validateTmp(testArray[0]));
+  message(validateRH(testArray[1]));
+  message(validatePrs(testArray[2]));
 }
 
 

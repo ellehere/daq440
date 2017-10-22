@@ -1,29 +1,59 @@
 #ifndef TEMPERATURE_h
 #define TEMPERATURE_h
 
+#include "common.h"
 
-float TEMPERATURE_CAL_A; float TEMPERATURE_CAL_A_UNC;
-float TEMPERATURE_CAL_B; float TEMPERATURE_CAL_B_UNC;
-float TEMPERATURE_CAL_C; float TEMPERATURE_CAL_C_UNC;
+//*****************************************************************************
+// Global variables provided by temperature.h
+//*****************************************************************************
+
+// number of times to sample each time readMeanResistance is called
+int NTH = 50;
+
+//*****************************************************************************
+// Global functions provided by temperature.h
+//*****************************************************************************
 
 /**
- * readMeanResistance
+ * err = readMeanResistance(Rth,Rth_unc)
+ * This function reads the thermistor ADC and determines the resistance 
+ * of the thermistor. This function should read the thermistor NTH times
+ * each time it is called, and average the values to get the actual 
+ * resistance. The uncertainty in the resistance measurement is be based 
+ * on the variance of the NTH measurements, and on the uncertainty of the 
+ * circuit (ie. the 20kOhm resistor has 0.1% tolerance).
+ * 
+ * When the function is successful, it should return zero.
  */
 int readMeanResistance(float & Rth, float & Rth_unc) {
   // write your code here
   message("readMeanResistance");
-  return 1;
+  message("Rth: ", Rth);
+  message("Rth_unc: ", Rth_unc);
+  return -1;
 }
 
 
 /**
- * calcTmp
+ * err = calcTmp(Rth, Rth_unc, tmp, tmp_unc);
+ * This function should use the calibration constants TEMPERATURE_CAL_* in the
+ * file common.h to calculate the temperature corresponding to the measured 
+ * resistance of the thermistor. The temperature uncertainty is based on the 
+ * resistance uncertainty, the uncertainty of the calibration constants, and the 
+ * uncertainty specified by the manufacturer in the thermistor datasheet.
+ * 
+ * The temperature returned in tmp should be in degrees celsius.
+ * 
+ * If the calculations are successful, the function should return 0.
  */
-int calcTmp(float Rth, float & tmp, float & tmp_unc) {
+int calcTmp(float Rth, float Rth_unc, float & tmp, float & tmp_unc) {
   // write your code here
   message("calcTmp");
-  message(Rth);
-  return 1;
+  message("Rth: ", Rth);
+  message("Rth_unc: ", Rth_unc);
+  message("tmp: ", tmp);
+  message("tmp_unc: ", tmp_unc);
+  return -1;
 }
 
 

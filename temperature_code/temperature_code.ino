@@ -15,7 +15,7 @@ void setup() {
   message(readMeanResistance(Rth, Rth_unc));
   message(Rth);
   message(Rth_unc);
-  message(calcTmp(Rth, tmp, tmp_unc));
+  message(calcTmp(Rth, Rth_unc, tmp, tmp_unc));
   message(tmp);
   message(tmp_unc);
 }
