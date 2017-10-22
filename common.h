@@ -30,8 +30,9 @@ float TEMPERATURE_CAL_C; float TEMPERATURE_CAL_C_UNC;
 float UNO_ELEVATION;
 
 // error values for nan and inf/-inf
-#define ERR_NAN_VALUE 0xa0 // 0b1010 0000
+#define ERR_NAN_VALUE 0x80 // 0b1000 0000
 #define ERR_INF_VALUE 0xc0 // 0b1100 0000
+
 
 // message function control
 #define MESSAGE_TO_SERIAL 0x0 // send messages to the serial terminal

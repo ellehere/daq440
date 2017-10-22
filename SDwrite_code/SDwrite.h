@@ -12,11 +12,15 @@
 // SD card is on pin 4
 #define chipSelectSD 4
 
-// SDwrite error codes
-#define ERR_SD_INIT_FAIL 0x1 // could not initialize the SD card
-#define ERR_SD_FILENAME_ERROR 0x2 // error getting the filename (probably a clock error)
-#define ERR_SD_FILE_OPEN 0x4 // cannot open the file
-#define ERR_SD_WRITE_LENGTH 0x8 // the wrong number of bytes were written to the file
+// SDwrite.h error codes
+#define ERR_SD 0x100
+#define ERR_SD_INIT_FAIL (ERR_SD | 0x1) // could not initialize the SD card
+#define ERR_SD_FILENAME_ERROR (ERR_SD | 0x2) // error getting the filename (probably a clock error)
+#define ERR_SD_FILE_OPEN (ERR_SD | 0x4) // cannot open the file
+#define ERR_SD_WRITE_LENGTH (ERR_SD | 0x8) // the wrong number of bytes were written to the file
+#define ERR_SD_NAN (ERR_SD | ERR_NAN_VALUE) // nan encountered (0x180)
+#define ERR_SD_INF (ERR_SD | ERR_INF_VALUE) // inf encountered (0x1c0)
+
 
 //*****************************************************************************
 // Global functions

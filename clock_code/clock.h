@@ -11,15 +11,19 @@
 // real-time clock object
 RTC_DS3231 RTC;
 
-// Error codes for clock.h functions
-#define ERR_RTC_INVALID_HOUR 0x1
-#define ERR_RTC_INVALID_MIN 0x2
-#define ERR_RTC_INVALID_SEC 0x4
-#define ERR_RTC_INVALID_YEAR 0x8
-#define ERR_RTC_INVALID_MONTH 0x10
-#define ERR_RTC_INVALID_DAY 0x20
-#define ERR_RTC_LOST_POWER 0x40 // the clock lost power, time is probably incorrect
-#define ERR_RTC_NO_CONNECTION 0x81 // cannot connect to the clock or clock is not updating time
+// clock.h error codes
+#define ERR_RTC 0x300
+#define ERR_RTC_INVALID_HOUR (ERR_RTC | 0x1)
+#define ERR_RTC_INVALID_MIN (ERR_RTC | 0x2)
+#define ERR_RTC_INVALID_SEC (ERR_RTC | 0x4)
+#define ERR_RTC_INVALID_YEAR (ERR_RTC | 0x8)
+#define ERR_RTC_INVALID_MONTH (ERR_RTC | 0x10)
+#define ERR_RTC_INVALID_DAY (ERR_RTC | 0x20)
+#define ERR_RTC_LOST_POWER (ERR_RTC | 0x40) // the clock lost power, time is probably incorrect
+#define ERR_RTC_NO_CONNECTION (ERR_RTC | 0x3f) // cannot connect to the clock or clock is not updating time
+#define ERR_RTC_NAN (ERR_RTC | ERR_NAN_VALUE) // nan encountered (0x380)
+#define ERR_RTC_INF (ERR_RTC | ERR_INF_VALUE) // inf encountered (0x3c0)
+
 
 //*****************************************************************************
 // Global functions
