@@ -68,9 +68,8 @@ boolean isLeapYear(int yr);
 
 
 /*
- * err = initClock();
+ * initClock
  * initialize the RTC and check the clock status
- * This function is already written
  */
 int initClock() {
   RTC.begin();
@@ -78,77 +77,137 @@ int initClock() {
 }
 
 /*
- * err = getTimeString(timeStr);
- * The function getTimeString checks the clock using the global RTC 
- * object. The time retrieved from the clock is used to construct a
- * time string, timeStr, with the format "14:20:03". This string should
- * should be 9 characters long with a string terminator at the end 
- * (ie. timeStr[8] = '\0';). If any of the values received for hour, 
- * minute, or second are unreasonable, the function should return the 
- * appropriate * error code to reflect which values are incorrect. 
- * For example:
- *   err = ERR_RTC_INVALID_MIN | ERR_RTC_INVALID_SEC;
- *   return err;
- * this would indicate that the minute and second are both unreasonable,
- * but that the hour is reasonable. If all three values are reasonable, 
- * getDateString should return 0;
- * The spaces in timeStr corresponding to an incorrect value should be
- * filled with '*'. For example, "14:**:**" for the error value given
- * above.
- * See the common.h function itoaLeadingZero() to convert numbers to
- * characters while keeping the leading zero.
+ * getTimeString
+ * timeStr must be a character array of length 9
+ * char timeStr[9] = "00:00:00"
+ * the return value is an integer with values defined by the error flags
+ * above
  */
 int getTimeString(char timeStr[9]) {
-  message("getTimeString");
-  return -1;
+  int err = 0;
+  DateTime now = RTC.now(); // retrieve the time
+  
+  int hr = now.hour(), mins = now.minute(), sec = now.second();
+  // clear the time string
+  clearString(timeStr, 4);
+
+  // check the time response and update err
+  if (hr < 0 || hr > 23) err |= ERR_RTC_INVALID_HOUR;
+  if (mins < 0 || mins > 59) err |= ERR_RTC_INVALID_MIN;
+  if (sec < 0 || sec > 59) err |= ERR_RTC_INVALID_SEC;
+  
+  // convert the numerical time to string
+  if (err & ERR_RTC_INVALID_HOUR) {
+    memset(timeStr,'*',2);    
+    message("invalid hour",hr);
+  } else {
+    itoaLeadingZero(hr, &(timeStr[0]), 2);
+  }
+  timeStr[2] = ':';
+  if (err & ERR_RTC_INVALID_MIN) {
+    memset(&(timeStr[3]),'*',2);
+    message("invalid minutes",mins);
+  } else {
+    itoaLeadingZero(mins, &(timeStr[3]), 2);
+  }
+  timeStr[5] = ':';
+  if (err & ERR_RTC_INVALID_SEC) {
+    memset(&(timeStr[6]),'*',2);
+    message("invalid seconds",sec);
+  } else {
+    itoaLeadingZero(sec, &(timeStr[6]), 2);
+  }
+    
+  timeStr[8] = '\0';
+
+  // return the error flag value
+  return err;
 }
 
 /*
- * err = getDateString(dateStr);
- * The function getDateString checks the clock using the global RTC 
- * object. The date retrieved from the clock is used to construct a
- * date string, dateStr, with the format "11/20/12". This string should
- * should be 9 characters long with a string terminator at the end 
- * (ie. dateStr[8] = '\0';). If any of the values received for day, 
- * month, or year are unreasonable, the function should return the 
- * appropriate error code to reflect which values are incorrect. 
- * For example:
- *   err = ERR_RTC_INVALID_DAY | ERR_RTC_INVALID_YEAR;
- *   return err;
- * this would indicate that the date and year are both unreasonable, but
- * that the month is reasonable. If all three values are reasonable, 
- * getDateString should return 0;
- * The spaces in dateStr corresponding to an incorrect value should be
- * filled with '*'. For example, "** /10/**" for the error value given
- * above.
- * See the common.h function itoaLeadingZero() to convert numbers to
- * characters while keeping the leading zero.
+ * getDateString
+ * dateStr should have the format "11/20/12", and should be 9 
+ * characters long:
+ *   char dateStr[9];
  */
 int getDateString(char dateStr[9]) {
-  message("getDateString");
-  return -1;
+  int err = 0;
+  DateTime now = RTC.now(); // retrieve the current time
+  byte year = now.year() - 2000, month = now.month(), day = now.day();
+  // check that the year, month, and day make sense
+  if ((year < 0) || (year > 50)) err |= ERR_RTC_INVALID_YEAR;
+  if ((month < 1) || (month > 12)) err |= ERR_RTC_INVALID_MONTH;
+  switch (month) {
+    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+      if ((day < 1) || (day > 31)) err |= ERR_RTC_INVALID_DAY;
+      break;
+    case 4: case 6: case 9: case 11:
+      if ((day < 1) || (day > 30)) err |= ERR_RTC_INVALID_DAY;
+      break;
+    case 2:
+      if (isLeapYear(year)) {
+        if ((day < 1) || (day > 29)) err |= ERR_RTC_INVALID_DAY;
+      }
+      else {
+        if ((day < 1) || (day > 28)) err |= ERR_RTC_INVALID_DAY;
+      }
+  }
+
+  // clear the string before writing the date
+  clearString(dateStr, 9);
+
+  if (err & ERR_RTC_INVALID_MONTH) {
+    memset(dateStr,'*',2);    
+    message("invalid month",month);
+  } else {
+    itoaLeadingZero(month, &(dateStr[0]), 2);
+  }
+  dateStr[2] = '/';
+  if (err & ERR_RTC_INVALID_DAY) {
+    memset((dateStr+3),'*',2);    
+    message("invalid month",day);
+  } else {
+    itoaLeadingZero(day, &(dateStr[3]), 2);
+  }
+  dateStr[5] = '/';
+  if (err & ERR_RTC_INVALID_YEAR) {
+    memset(dateStr+6,'*',2);    
+    message("invalid year",year);
+  } else {
+    itoaLeadingZero(year, &(dateStr[6]), 2);
+  }
+  dateStr[8] = '\0';
+
+  return err;
 }
 
 /*
- * err = checkClock();
+ * checkClock
  * Check that the clock is working and has not lost power.
  * If the RTC has lost power, the time is probably incorrect.
- * Use the function RTC.lostPower(), and also check the time
- * twice, separated by a 1000 ms delay. If the seconds do not 
- * change, return ERR_RTC_NO_CONNECTION.
- * 
  * Returns 0 if clock is working, ERR_RTC_LOST_POWER if
- * clock has lost power (RTC.lostPower()), and 
- * ERR_RTC_NO_CONNECTION if the connection has been lost (seconds
- * do not change).
+ * clock has lost power, and ERR_RTC_NO_CONNECTION if the
+ * connection has been lost.
  */
 int checkClock() {
-  message("checkClock");
-  return -1;
+  int err = 0;
+  DateTime now = RTC.now();
+  int sec = now.second();
+  delay(1000);
+  if (RTC.lostPower()) {
+    err |= ERR_RTC_LOST_POWER;
+  }
+  now = RTC.now();
+  if (now.second() == sec) {
+    err |= ERR_RTC_NO_CONNECTION;
+  }
+  
+  RTC.writeSqwPinMode(DS3231_OFF);
+  return err;
 }
 
 /*
- * err = setRTCTime(RTC_DS3231 RTC);
+ * setRTCTime(RTC_DS3231 RTC)
  * sets the time on the RTC DS3231
  * Reads a string from serial.
  * String must be formatted as follows:

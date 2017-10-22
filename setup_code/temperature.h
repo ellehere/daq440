@@ -10,6 +10,13 @@
 // number of times to sample each time readMeanResistance is called
 int NTH = 50;
 
+// temperature.h error codes
+#define ERR_TEMP 0x700
+#define ERR_TEMP_INVALID_RTH (ERR_TEMP | 0x1) // resistance value is invalid/impossible
+#define ERR_TEMP_INVALID_TMP (ERR_TEMP | 0x2) // temperature value is invalid/impossible
+#define ERR_TEMP_NAN (ERR_TEMP | ERR_NAN_VALUE) // nan encountered (0x7c0)
+#define ERR_TEMP_INF (ERR_TEMP | ERR_INF_VALUE) // inf encountered (0x780)
+
 //*****************************************************************************
 // Global functions provided by temperature.h
 //*****************************************************************************

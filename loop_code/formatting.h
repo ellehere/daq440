@@ -8,13 +8,15 @@
 // Variables and errors defined for formatting.h
 //*****************************************************************************
 
-// error constants for formatting.h
-#define ERR_FMT_INVALID_TMP 0x1 // temperature value is invalid/impossible
-#define ERR_FMT_INVALID_RH 0x2 // RH value is invalid/impossible
-#define ERR_FMT_INVALID_PRS 0x4 // PRS value is invalid/impossible
-#define ERR_FMT_STR_TOO_SMALL 0x8 // the output string is too short to fit the values
-#define ERR_FMT_NAN_VALUE ERR_NAN_VALUE // one of the values is nan
-#define ERR_FMT_INF_VALUE ERR_INF_VALUE // one of the values is inf/-inf
+// formatting.h error codes
+#define ERR_FMT 0x400
+#define ERR_FMT_INVALID_TMP (ERR_FMT | 0x1) // temperature value is invalid/impossible
+#define ERR_FMT_INVALID_RH (ERR_FMT | 0x2) // RH value is invalid/impossible
+#define ERR_FMT_INVALID_PRS (ERR_FMT | 0x4) // PRS value is invalid/impossible
+#define ERR_FMT_STR_TOO_SMALL (ERR_FMT | 0x8) // the output string is too short to fit the values
+#define ERR_FMT_NAN_VALUE (ERR_FMT | ERR_NAN_VALUE) // one of the values is nan (0x480)
+#define ERR_FMT_INF_VALUE (ERR_FMT | ERR_INF_VALUE) // one of the values is inf/-inf (0x4c0)
+
 
 //*****************************************************************************
 // Functions

@@ -11,6 +11,11 @@
  * url: https://www.thinkbrg.com/media/publication/720_McCrary_ImplementingAlgorithms_Whitepaper_20151119_WEB.pdf
  */
 
+// stat.h error codes
+#define ERR_STAT 0x800
+#define ERR_STAT_NAN (ERR_STAT | ERR_NAN_VALUE) // nan encountered (0x8c0)
+#define ERR_STAT_INF (ERR_STAT | ERR_INF_VALUE) // inf encountered (0x880)
+
 //*****************************************************************************
 // Global functions provided by stats.h
 //*****************************************************************************

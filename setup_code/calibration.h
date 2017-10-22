@@ -1,19 +1,21 @@
 #ifndef CALIBRATION_h
 #define CALIBRATION_h
 
-/*
- * error codes to be returned by loadCalibrationFile
- */
-#define ERR_CAL_NO_FILE = -1; // calibration file is not present
-#define ERR_CAL_NO_SD = -2; // SD card is not present
-#define ERR_CAL_UNREADABLE = -3; // cannot read the calibration from the file
-#define ERR_CAL_NO_T_A = 0x1; // missing TEMPERATURE_CAL_A
-#define ERR_CAL_NO_T_B = 0x2; // missing TEMPERATURE_CAL_B
-#define ERR_CAL_NO_T_C = 0x4; // missing TEMPERATURE_CAL_C
-#define ERR_CAL_NO_T_A_UNC = 0x8; // missing TEMPERATURE_CAL_A_UNC
-#define ERR_CAL_NO_T_B_UNC = 0x10; // missing TEMPERATURE_CAL_B_UNC
-#define ERR_CAL_NO_T_C_UNC = 0x20; // missing TEMPERATURE_CAL_B_UNC
-#define ERR_CAL_NO_ELEV = 0x40; // missing UNO_ELEVATION
+#include "common.h"
+
+// calibration.h error codes
+// to be returned by loadCalibrationFile
+#define ERR_CAL 0x200
+#define ERR_CAL_UNREADABLE (ERR_CAL | 0x7f) // cannot read the calibration from the file, file is not present, or SD card is not present
+#define ERR_CAL_NO_T_A (ERR_CAL | 0x1) // missing TEMPERATURE_CAL_A
+#define ERR_CAL_NO_T_B (ERR_CAL | 0x2) // missing TEMPERATURE_CAL_B
+#define ERR_CAL_NO_T_C (ERR_CAL | 0x4) // missing TEMPERATURE_CAL_C
+#define ERR_CAL_NO_T_A_UNC (ERR_CAL | 0x8) // missing TEMPERATURE_CAL_A_UNC
+#define ERR_CAL_NO_T_B_UNC (ERR_CAL | 0x10) // missing TEMPERATURE_CAL_B_UNC
+#define ERR_CAL_NO_T_C_UNC (ERR_CAL | 0x20) // missing TEMPERATURE_CAL_B_UNC
+#define ERR_CAL_NO_ELEV (ERR_CAL | 0x40) // missing UNO_ELEVATION
+#define ERR_CAL_NAN (ERR_CAL | ERR_NAN_VALUE) // nan encountered (0x280)
+#define ERR_CAL_INF (ERR_CAL | ERR_INF_VALUE) // inf encountered (0x2c0)
 
 /*
  * format of the calibration file is as follows:

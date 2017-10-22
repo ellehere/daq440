@@ -12,11 +12,14 @@
 Adafruit_Si7021 Si7021;
 int checkRH();
 
-// error values for humidity.h
-const int8_t ERR_RH_NO_CONTACT = 0x1; // cannot contact RH sensor
-const int8_t ERR_RH_INVALID_RH = 0x2; // RH value is invalid or outside of reasonable range
-const int8_t ERR_RH_INVALID_TMP = 0x4; // temperature value is invalid or outside of reasonable range
-const int8_t ERR_RH_DP_ERR = 0x8; // error with dewpoint calculation
+// humidity.h error codes
+#define ERR_RH 0x500
+#define ERR_RH_NO_CONTACT (ERR_RH | 0x1) // cannot contact RH sensor
+#define ERR_RH_INVALID_RH (ERR_RH | 0x2) // RH value is invalid or outside of reasonable range
+#define ERR_RH_INVALID_TMP (ERR_RH | 0x4) // temperature value is invalid or outside of reasonable range
+#define ERR_RH_DP_ERR (ERR_RH | 0x8) // error with dewpoint calculation
+#define ERR_RH_NAN (ERR_RH | ERR_NAN_VALUE) // nan encountered (0x580)
+#define ERR_RH_INF (ERR_RH | ERR_INF_VALUE) // inf encountered (0x5c0)
 
 //*****************************************************************************
 // Functions provided by humidity.h
