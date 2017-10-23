@@ -35,8 +35,9 @@ float UNO_ELEVATION;
 
 
 // message function control
-#define MESSAGE_TO_SERIAL 0x0 // send messages to the serial terminal
-#define MESSAGE_TO_FILE 0x1 // send messages to the file "MSGLOG00.LOG"
+#define MESSAGE_TO_SERIAL 0x1 // send messages to the serial terminal
+#define MESSAGE_TO_FILE 0x2 // send messages to the file "MSGLOG00.LOG"
+#define MESSAGE_TO_BOTH 0x3 // send messages to both the log file and serial
 int MESSAGE_DESTINATION = MESSAGE_TO_SERIAL;
 
 
@@ -205,12 +206,14 @@ int cleanNanInf(float & x);
 // message a comment with two strings
 void _messageSD(const char msg1[], const char msg2[] = "");
 void message(const char msg1[], const char msg2[] = "") {
-  if (MESSAGE_DESTINATION == MESSAGE_TO_SERIAL) {
+  //  if (MESSAGE_DESTINATION == MESSAGE_TO_SERIAL) {
+  if (MESSAGE_DESTINATION & MESSAGE_TO_SERIAL) {
     Serial.print(millis());
     Serial.print("> ");
     Serial.print(msg1);
     Serial.println(msg2);
-  } else if (MESSAGE_DESTINATION == MESSAGE_TO_FILE) {
+  } //else if (MESSAGE_DESTINATION == MESSAGE_TO_FILE) {
+  if (MESSAGE_DESTINATION & MESSAGE_TO_FILE) {
     _messageSD(msg1,msg2);
   }
 }
